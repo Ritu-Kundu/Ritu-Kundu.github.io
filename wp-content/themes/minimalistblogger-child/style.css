@@ -1,0 +1,10 @@
+.content-wrap {width: 70% !important;max-width: 70% !important;padding: 10px;}
+.no-sidebar #primary {width: 100% !important;max-width: 100% !important;padding: 10px;}
+.no-sidebar #secondary {display: none;}
+.blank #primary {display: none;}
+.blank #secondary {display: none;}
+a {text-decoration: none;color: #1a4964;}
+a:hover {text-decoration: underline;color: black;}
+.section {margin-bottom: 0;padding: .5em;border-top: 2px solid #d0d0d0;}
+.extra {padding-top: .2em;padding-bottom: .2em;padding-left: 1em;text-align: left;font-family: Arial,Helvetica,sans-serif;font-size: .9em;font-style: oblique;}
+.description {padding: 0px 1.5em 1em 1.5em;text-align: justify;}

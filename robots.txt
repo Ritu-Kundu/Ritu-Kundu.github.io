@@ -1,0 +1,7 @@
+Sitemap: https://ritu-kundu.github.io/sitemap.xml
+Sitemap: https://ritu-kundu.github.io/news-sitemap.xml
+User-agent: *
+Disallow: /wp-admin/
+Allow: /wp-admin/admin-ajax.php
+
+Sitemap: https://ritu-kundu.github.io/sitemap.xml
