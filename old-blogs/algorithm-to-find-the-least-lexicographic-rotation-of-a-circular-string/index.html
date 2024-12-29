@@ -1,0 +1,100 @@
+---
+layout: post
+title: Algorithm to find the least lexicographic rotation of a circular string | Ritu Kundu
+coltype: no-sidebar
+---
+<div id="primary" class="featured-content content-area"><main id="main" class="site-main">
+
+<article id="post-21" class="posts-entry fbox post-21 post type-post status-publish format-standard has-post-thumbnail hentry category-algorithm-design-and-analysis">
+	<div class="featured-thumbnail">
+		<a href="/old-blogs/algorithm-to-find-the-least-lexicographic-rotation-of-a-circular-string/" rel="bookmark"><img width="338" height="343" src="/assets/uploads/2016/10/cstr1.png?fit=338%2C343&ssl=1" class="attachment-minimalistblogger-slider size-minimalistblogger-slider wp-post-image" alt="" decoding="async" fetchpriority="high" srcset="/assets/uploads/2016/10/cstr1.png?w=338&ssl=1 338w,/assets/uploads/2016/10/cstr1.png?resize=296%2C300&ssl=1 296w" sizes="(max-width: 338px) 100vw, 338px"></a>
+	</div>
+	<header class="entry-header">
+		<h1 class="entry-title">Algorithm to find the Least Lexicographic Rotation of a circular string</h1>
+		<div class="entry-meta"><div class="blog-data-wrapper">
+			<div class="post-data-divider"></div>
+			<div class="post-data-positioning"><div class="post-data-text">
+				<span class="posted-on">Posted on <a href="/old-blogs//algorithm-to-find-the-least-lexicographic-rotation-of-a-circular-string/" rel="bookmark"><time class="entry-date published updated" datetime="2016-10-07T10:29:49+00:00">October 7, 2016</time></a></span><span class="byline"> by <span class="author vcard"><a class="url fn n" href="https://ritu-kundu.github.io/author/rituritukundugmailcom/">Ritu Kundu</a></span></span>
+			</div></div>
+		</div></div>
+	</header>
+
+	<div class="entry-content">
+		<h2>Background:</h2>
+<p style="text-align:justify;">A string is a sequence of symbols from a set called an alphabet. If the string is circular, one can start reading it from any position/index. For example, consider the following circular string of <em>length</em> 8:</p>
+<p> </p>
+<p><img decoding="async" class="aligncenter size-thumbnail wp-image-68" src="https://ritu-kundu.github.io/assets/uploads/2016/10/cstr1.png?resize=148%2C150&ssl=1" alt="cstr" width="148" height="150" srcset="https://ritu-kundu.github.io/assets/uploads/2016/10/cstr1.png?w=338&ssl=1 338w,https://ritu-kundu.github.io/assets/uploads/2016/10/cstr1.png?resize=296%2C300&ssl=1 296w" sizes="(max-width: 148px) 100vw, 148px" data-recalc-dims="1"></p>
+<p style="text-align:justify;">If we read this circular string starting at 12 o’clock position and moving in clockwise direction, we obtain”<em>abaabbab</em>“.  Now, let us rotate this circular string in anti-clockwise direction by one position.</p>
+<p> </p>
+<p><img decoding="async" class="aligncenter size-thumbnail wp-image-69" src="https://ritu-kundu.github.io/assets/uploads/2016/10/cstr22.png?resize=148%2C150&ssl=1" alt="cstr2" width="148" height="150" srcset="https://ritu-kundu.github.io/assets/uploads/2016/10/cstr22.png?w=338&ssl=1 338w,https://ritu-kundu.github.io/assets/uploads/2016/10/cstr22.png?resize=296%2C300&ssl=1 296w" sizes="(max-width: 148px) 100vw, 148px" data-recalc-dims="1"></p>
+<p style="text-align:justify;">The string now derived from reading after one rotation is “<em>baabbaba</em>“. Similarly, rotating again will give us “<em>aabbabab</em>“; continuing in the similar fashion we get “<em>abbababa</em>“, “<em>bbababaa</em>“, “<em>bababaab</em>“,  “<em>ababaabb</em>“, “<em>babaabba</em>“.</p>
+<p style="text-align:justify;">In other words, all these eight strings so obtained, represent the rotations of the same circular string. The question now arises: how do we know if two given strings represent the rotations of the same circular string or different ones? Alternatively, how do we compare two circular strings?</p>
+<p style="text-align:justify;">The answer lies in the fact that a given circular string will have a unique least lexicographic rotation. Simply, if we arrange the strings representing the rotations in lexicographic order (the order in which they will appear in a dictionary), the one appearing first among all will correspond to the least lexicographic  rotation. For instance, here the lexicographic or dictionary order is: “<em>aabbabab</em>“,  “<em>abaabbab</em>“,  “<em>ababaabb</em>“,  “<em>abbababa</em>“, “<em>baabbaba</em>“, “<em>babaabba</em>“, “<em>bababaab</em>“,  “<em>bbababaa</em>“. Clearly, “<em>aabbabab</em>” represents the least lexicographic rotation.</p>
+<p style="text-align:justify;">Thus, if two different strings result in the same least lexicographic rotation, they essentially represent the rotations of the same circular string.</p>
+<h2>Motivation:</h2>
+<p style="text-align:justify;">The motivation to study the problem of computing the least lexicographic rotation (LLR, henceforth) of a string comes from many different application domains.</p>
+<ul>
+<li style="text-align:justify;"><strong>Genetics:</strong> Several bacterial genomic sequences are circular. In many situations, such as indexing a new genome in databases, we need to know whether or not two genomic sequences belong to the same bacteria.</li>
+<li style="text-align:justify;"><strong>Finger-print identification:</strong> Fingerprints can be seen as circular strings at primary level. For verification or searching a given fingerprint against the stored ones, comparison of circular strings is required.</li>
+<li style="text-align:justify;"><strong>Pattern-matching in geometric data:</strong> A polygon can be represented as a circular string of coordinates in the sense that there is no starting or end point in a polygon. Pattern searching in such a database of polygons necessitates comparison of circular strings.</li>
+</ul>
+<p> </p>
+<h2>Problem:</h2>
+<p style="text-align:justify;">A string is given that represents a rotation of  a circular string (which can be obtained by joining the right end of  the given string with its left end).  We are required to find the LLR of the underlying circular string. For example, we are given “<em>baabbaba</em>” (which is a rotation of the circular string in the running example).  Let us index the positions of the given string from 1.</p>
+<p style="text-align:justify;"><img loading="lazy" decoding="async" class="aligncenter size-medium wp-image-151" src="https://ritu-kundu.github.io/assets/uploads/2016/10/str.png?resize=300%2C54&ssl=1" alt="str" width="300" height="54" srcset="https://ritu-kundu.github.io/assets/uploads/2016/10/str.png?w=403&ssl=1 403w,https://ritu-kundu.github.io/assets/uploads/2016/10/str.png?resize=300%2C54&ssl=1 300w" sizes="(max-width: 300px) 100vw, 300px" data-recalc-dims="1"></p>
+<p style="text-align:justify;">We get a rotation if we start from an index, say i, go up to the end, start from 1, and stop at i-1. Note that all the rotations of the underlying circular string can be obtained from the given string (by starting from each index). Here, “<em>aabbabab</em>”  starting at index 2 is the LLR.</p>
+<p style="text-align:justify;">Further note that LLR of a given string (and thus of the underlying circular string) is unique even though it may start from more than one indices. Take the string “<em>baabaa</em>” for example – the LLR is “<em>aabaab</em>” but it starts from index 2 and index 5. In general, if a string is <em>periodic</em> (i.e. of the form x<sup>n</sup> where n ≥ 2) then it will have several (decided by n) indices giving the same rotation and thus the same LLR. As a consequence, a <em>non-periodic</em> (that can not be expressed as a power of a shorter string) will have the unique index for its LLR.</p>
+<p> </p>
+<h2>Naive Algorithm:</h2>
+<p style="text-align:justify;">Naively, we can sort the successive rotations to find the LLR. For a string of length n, if we use bucket-sort algorithm, the naive approach will require O(n²) time in the worst case.</p>
+<h2 style="text-align:justify;">Duval’s Algorithm:</h2>
+<p style="text-align:justify;">In 1983, an efficient algorithm was proposed by Duval that runs in O(n) time and requires constant memory space. Working of the algorithm can be understood easily, by following the description of the steps given below:</p>
+<ol>
+<li style="text-align:justify;">Start by comparing (seen as a duel) symbols at the consecutive indices: 1 with 2, 3 with 4, 5 with 6, and so on. While comparing indices, say i and i+1, the winner  will be the index having smaller symbol of the two. If both are equal, choose the left one as the winner (i.e. i).</li>
+<li style="text-align:justify;">Now compare consecutive indices of the winners chosen in the previous step. New winners will be chosen as follows: Assume we are comparing index i with index j. Compare the substring starting at index i up to index j-1, with the substring of the same length (i.e. j-i) but starting from index j. Note that the substring is taken considering string to be circular (i.e., if we hit the end, we go back to 1). Whichever of the two substrings is smaller, its starting index will be the winner. If both are the same, choose the left index (i.e. i).</li>
+<li style="text-align:justify;">Repeat Step 2 until we retreive the ultimate winner; the rotation starting from this winner-index is the LLR.</li>
+</ol>
+<h3>Example</h3>
+<p><img loading="lazy" decoding="async" class=" size-full wp-image-239 aligncenter" src="https://ritu-kundu.github.io/assets/uploads/2016/10/algo.png?resize=403%2C433&ssl=1" alt="algo" width="403" height="433" srcset="https://ritu-kundu.github.io/assets/uploads/2016/10/algo.png?w=403&ssl=1 403w,https://ritu-kundu.github.io/assets/uploads/2016/10/algo.png?resize=279%2C300&ssl=1 279w" sizes="(max-width: 403px) 100vw, 403px" data-recalc-dims="1"></p>
+<p style="text-align:justify;"><span style="text-decoration:underline;">Iteration 1:</span> From <em>b</em> and <em>a</em> at indices 1 and 2, respectively,  <em>a </em>is smaller. Therefore, 2 is the winner. Similarly,  3, 6, and 8  are the winners.</p>
+<p style="text-align:justify;"><span style="text-decoration:underline;">Iteration 2:</span> Now substrings of length 1 (3-2 =1) starting at 2 and 3 are compared. Since <em>a=a</em>, left index i.e. 2 is chosen as the winner.</p>
+<p style="text-align:justify;">In comparison (duel) between 6 and 8, substrings of length 2 (8-6=2) are compared. Substring of length 2 starting at position 6 is <em>ab </em>and the one starting at position 8 (considering circular string) is also <em>ab</em><strong>. </strong>Again, left index i.e. 6 is chosen as the winner because <em>ab=ab.</em></p>
+<p style="text-align:justify;"><span style="text-decoration:underline;">Iteration 3:</span> The substrings of length 4 (6-2 =4) starting at positions 2 (<em>aabb</em>) and 6 (<em>abab</em>) are duelled in this step. As <em>aabb < abab</em>, 2 is the clear winner. We stop here as there are no indices left to duel and the final winner has been chosen.</p>
+<p style="text-align:justify;">Thus, the LLR is the rotation starting at index 2 i.e. “<em>aabbabab</em>“.</p>
+<h3 style="text-align:justify;">Correctness of the algorithm</h3>
+<p>Consider that we are comparing two indices, say i and j.</p>
+<p><img loading="lazy" decoding="async" class="aligncenter size-medium wp-image-289" src="https://ritu-kundu.github.io/assets/uploads/2016/10/correct.png?resize=300%2C273&ssl=1" alt="correct" width="300" height="273" srcset="https://ritu-kundu.github.io/assets/uploads/2016/10/correct.png?w=393&ssl=1 393w,https://ritu-kundu.github.io/assets/uploads/2016/10/correct.png?resize=300%2C273&ssl=1 300w" sizes="(max-width: 300px) 100vw, 300px" data-recalc-dims="1"></p>
+<p>Let the substring from i to j-1 is <em>X</em><em> </em>and the substring of same length (i.e. j-i) starting from j is Y which ends at index, say l. Let the substring from l and going up to i is Z. The rotations starting from i, j, and l are XYZ, YZX, and ZXY, respectively.</p>
+<p>Now there are only the following possibilities:</p>
+<ol>
+<li style="text-align:justify;">X < Y<br>
+In this case, as X and Y are of the same length, XYZ < YZX => Rotation starting from i is smaller. By choosing i as the winner, we chose the smaller rotation.</li>
+<li style="text-align:justify;">X > Y<br>
+In this case, as X and Y are of the same length, XYZ > YZX => Rotation starting from j is smaller. By choosing j as the winner, we chose the smaller rotation.</li>
+<li>X = Y<br>
+Here, we chose the left index i.e. i, but we can not conclusively derive the relation between the two rotations. However, there are only three possibilities:
+<ol>
+<li style="text-align:justify;">XYZ < YZX<br>
+Rotation starting from i is smaller. By choosing i as the winner, we chose the smaller rotation.</li>
+<li style="text-align:justify;">XYZ = YZX<br>
+Both the rotations are same. Therefore, choosing i or j effectively will result in the same rotation. Thus, choosing i will not give a wrong result.</li>
+<li style="text-align:justify;">XYZ > YZX<br>
+This, at least on the face value, appears as if we chose the wrong rotation by choosing i over j, even though the rotation starting at j was smaller than the one starting at i. Let us examine carefully.<br>
+Since X=Y, let us replace Y with X i.e.<br>
+XXZ > XZX => XZ > ZX => XZX > ZXX<br>
+Note that when X = Y, XZX is the rotation starting at j and ZXX is the one starting at l. The above derived relation implies that the rotation starting at l is further smaller than the one beginning at j. Therefore, j was not the index of smallest rotation. Even if we had chosen j over i, it would have been beaten by l at least. In other words, we did not make a wrong decision in dropping j as it was not the right answer because there exists a rotation (the one starting at l) which is smaller than that at j.<br>
+As an example, consider comparison between indices 6 and 8 in iteration 2. Here: i=6, j=8, X=<em>ab</em>, Y=<em>ab</em>, l=2, Z=<em>aabb,</em> the rotation starting at 6 is “<em>ababaabb”</em>,  and the rotation starting at 8 is “<em>abaabbab”</em>. even though the rotation at 8 is smaller than the one at 6, we chose 6 as winner. But this did not make any difference because the rotation starting at 2 (“<em>aabbabab”</em>) is   further smaller than the one at 8. [Please note that here the rotation at 2 also happen to be the LLR.]</li>
+</ol>
+</li>
+</ol>
+<p>This completes the proof of the correctness of the algorithm.</p>
+<h2>References:</h2>
+<p style="text-align:justify;">Following is the paper in which the algorithm was proposed:</p>
+<p style="text-align:justify;">Jean Pierre Duval (1983). <a class="external text" href="http://www.sciencedirect.com/science/article/pii/0196677483900172" rel="nofollow">“Factorizing words over an ordered alphabet”</a>. <i>Journal of Algorithms</i>. Elsevier. <b>8</b> (8): 363–381. <a title="Digital object identifier" href="https://en.wikipedia.org/wiki/Digital_object_identifier">doi</a>:<a class="external text" href="https://dx.doi.org/10.1016%2F0196-6774%2883%2990017-2" rel="nofollow">10.1016/0196-6774(83)90017-2</a>. <a title="International Standard Serial Number" href="https://en.wikipedia.org/wiki/International_Standard_Serial_Number">ISSN</a> <a class="external text" href="https://www.worldcat.org/issn/0196-6774" rel="nofollow">0196-6774</a>.</p>
+<h2>Epilogue:</h2>
+<p>Please pardon the verbosity and oversimplification of the algorithm. This post is more pertinent to graduate students. It is not intended for a connoisseur of string-algorithms. 🙂</p>
+<p>Cheers!</p>
+
+</div>
+</article>
+</main></div>

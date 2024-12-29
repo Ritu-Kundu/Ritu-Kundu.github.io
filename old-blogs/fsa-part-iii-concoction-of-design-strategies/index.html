@@ -1,0 +1,330 @@
+---
+layout: post
+title: FSA Part III - Concoction of design-strategies | Ritu Kundu
+coltype: no-sidebar
+---
+<div id="primary" class="featured-content content-area"><main id="main" class="site-main">		
+<article id="post-2613" class="posts-entry fbox post-2613 post type-post status-publish format-standard has-post-thumbnail hentry category-algorithm-design-and-analysis">
+	<div class="featured-thumbnail">
+		<a href="/old-blogs/fsa-part-iii-concoction-of-design-strategies/" rel="bookmark"><img width="850" height="693" src="https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_kleene1.png?fit=850%2C693&ssl=1" class="attachment-minimalistblogger-slider size-minimalistblogger-slider wp-post-image" alt="" decoding="async" fetchpriority="high" srcset="https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_kleene1.png?w=862&ssl=1 862w,https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_kleene1.png?resize=300%2C245&ssl=1 300w,https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_kleene1.png?resize=768%2C626&ssl=1 768w" sizes="(max-width: 850px) 100vw, 850px"></a>
+	</div>
+	<header class="entry-header">
+		<h1 class="entry-title">FSA Part III: Concoction of design-strategies</h1>
+		<div class="entry-meta"><div class="blog-data-wrapper">
+			<div class="post-data-divider"></div>
+			<div class="post-data-positioning"><div class="post-data-text">
+				<span class="posted-on">Posted on <a href="/old-blogs/fsa-part-iii-concoction-of-design-strategies/" rel="bookmark"><time class="entry-date published updated" datetime="2017-12-12T02:15:49+00:00">December 12, 2017</time></a></span><span class="byline"> by <span class="author vcard"><a class="url fn n" href="https://ritu-kundu.github.io/author/rituritukundugmailcom/">Ritu Kundu</a></span></span>
+			</div></div>
+			</div></div>
+	</header>
+
+	<div class="entry-content">
+		<p style="text-align:justify;">Again, this post is meant specifically for undergraduate students (<em>first timers into the automata theory</em>) – a very brief introduction of FSA: Finite State Automaton (Automata when <em>plural</em>). This post is the third of four parts: the <a href="/old-blogs/fsa-concoction-of-design-strategies/">first</a> part covers an elementary introduction to FSA and DFA (Deterministic Finite Automaton), the <a href="/old-blogs/fsa-part-ii-concoction-of-design-strategies/" target="_blank" rel="noopener">second</a> part encompasses some common examples illustrating design-strategies for constructing DFA, this part provides an introduction to NFA (Nondeterministic Finite Automaton) and its equivalence with DFA, and <a href="/old-blogs/fsa-part-iv-concoction-of-design-strategies/">Part IV</a> introduces the Pumping Lemma and its usage in the context of FSA.</p>
+<p style="text-align:justify;">The post inrtoduces an NFA, discusses its equivalence with DFA in terms of the expressive power, and exemplifies the situations when building an NFA makes our lives easier rather than constructing the corresponding DFA. Of course, the equivalent DFA can be drawn if one requires so.</p>
+<hr>
+<hr>
+<h1 style="text-align:justify;">NFA:</h1>
+<p style="text-align:justify;">As has been described in <a href="/old-blogs/fsa-concoction-of-design-strategies/">Part I</a>, a non-deterministic finite automaton allows for transition to more than one state on reading an input symbol; in addition, <em>empty-transitions</em>  (<strong>ε</strong>-transitions) are also possible which correspond to changing state <em>without</em> reading a symbol.</p>
+<p style="border:1px solid #110000;padding:1em;text-align:justify;"><em>It is usual to distinguish NFA (with no empty transitions) from NFA-∈ (with empty transitions). Here, we will make no such distinction as NFA with empty-transitions is simply a more general variant. </em></p>
+<h2 style="text-align:justify;"> Mathematical description –</h2>
+<p style="text-align:justify;">Mathematically an NFA can be represented as a 5-tuple <b>ℳ</b> = (<strong>Q, Σ, s, F, δ</strong>) where</p>
+<p style="text-align:justify;"><strong>Q</strong> is a finite set of states,</p>
+<p style="text-align:justify;"><strong>Σ</strong> is an alphabet (set of symbols of the input),</p>
+<p style="text-align:justify;"><strong>s</strong> ∈ <strong>Q </strong>is the initial state,</p>
+<p style="text-align:justify;"><strong>F</strong> ⊆ <strong>Q</strong> is the set of the final states,</p>
+<p style="text-align:justify;"><strong>δ</strong> , the transition function, is a function from <strong>Q</strong> × <strong>Σ</strong> to<strong> 2<sup>Q</sup></strong> (i.e. the power-set of the states, in contrast to a single state in case of DFA)</p>
+<h2 style="text-align:justify;">Diagrammatic description –</h2>
+<p style="text-align:justify;">There may be many edges labelled with the same input symbol going from a state to multiple different states. Thus, the current state the NFA is in, is defined by a set of states (rather than a single state). And, there will be edges labelled with ε; we will call the transition using this edge as an <em>empty-move</em>. Moreover, it is not necessary to define all the transitions, from a state, corresponding to each input symbol of the alphabet. An input will be <em>valid</em> (or <em>accepted</em>) if at least one transition-sequence that is followed on reading the input leads to some final state.</p>
+<h2 style="text-align:justify;">A simple example –</h2>
+<p style="text-align:justify;">As mentioned earlier, an NFA, instead of being in a single state, may be in a <strong>set</strong> of states (a subset of <strong>Q</strong>) at one instance. Let us represent this set of states as<strong> active</strong> states or an <strong>active set</strong>. On reading a symbol of the input, the new set of active states is derived by taking union of all the sets of states that can be reached from each of the states which is active currently.  Consider an NFA given below (Empty transitions are shown with label <strong>E</strong>. Please ignore the typo: hanging 1 under S7.):</p>
+<p style="text-align:justify;"><img decoding="async" class="  wp-image-2668 aligncenter" src="https://ritu-kundu.github.io/assets/uploads/2017/12/nfa1.png?resize=552%2C176&ssl=1" alt="NFA1" width="552" height="176" srcset="https://ritu-kundu.github.io/assets/uploads/2017/12/nfa1.png?w=786&ssl=1 786w,https://ritu-kundu.github.io/assets/uploads/2017/12/nfa1.png?resize=300%2C96&ssl=1 300w,https://ritu-kundu.github.io/assets/uploads/2017/12/nfa1.png?resize=768%2C245&ssl=1 768w" sizes="(max-width: 552px) 100vw, 552px" data-recalc-dims="1"></p>
+<p style="text-align:justify;">Let’s see how an input (say “01”) will be read in this NFA. State S0 is the initial state but an empty-transition takes us from S0 to S1. Further, an empty-transition from S1 takes us to S3. Therefore, S0, S1, and S3 all serve as initial states. Reading “0” we move from S0 to nowhere; from S1 to S2 and S4; and from S3 to nowhere. Moreover, S2 can make an empty-move to S5. Overall, on reading “0” the set of current (or active) states becomes {S2, S4, S5}. Now the next input symbol is “1”. S2 leads us nowhere;  S4 to S6; and S5 to S7. Also, none of these states (i.e. S6 and S7 ) have empty-moves. Hence, after reading “1” we get the active set of states as {S7, S6}. The input ends here. As S6 is a final state in the current/active states when the input ended, the input “01” is <em>accepted</em> by this NFA.</p>
+<p style="text-align:justify;">Note that if there had been no final states in the active state at the end of input, we would have said that the input is <em>rejected</em>. The input would also said to be rejected if the NFA gets ‘<em>halted</em>‘ (i.e. there is no way out of any of the current active states on reading the next symbol of the input) before the input ends.</p>
+<p style="text-align:justify;">Working of the NFA for some input sequences is shown in the following figures (current symbol being considered is shown in red; active states in green; edges taken and the next state in red):</p>
+<ul style="text-align:justify;">
+<li>A valid sequence<br>
+<img decoding="async" class="  wp-image-2666 aligncenter" src="https://ritu-kundu.github.io/assets/uploads/2017/12/nfa2gif.gif?resize=487%2C213&ssl=1" alt="NFA2GIF" width="487" height="213" data-recalc-dims="1"></li>
+</ul>
+<ul style="text-align:justify;">
+<li>An invalid seqeunce: No state is accepting in the last active set (which is just {S5}).<img loading="lazy" decoding="async" class="  wp-image-2667 aligncenter" src="https://ritu-kundu.github.io/assets/uploads/2017/12/nfa1gif.gif?resize=477%2C207&ssl=1" alt="NFA1GIF" width="477" height="207" data-recalc-dims="1"></li>
+<li>An invalid sequence: no transition out on reading symbol 1 and input has not ended.<br>
+<img loading="lazy" decoding="async" class="  wp-image-2665 aligncenter" src="https://ritu-kundu.github.io/assets/uploads/2017/12/nfa3gif.gif?resize=540%2C237&ssl=1" alt="NFA3GIF" width="540" height="237" data-recalc-dims="1"></li>
+</ul>
+<h1 style="text-align:justify;"></h1>
+<hr>
+<hr>
+<h1 style="text-align:justify;">NFA to DFA</h1>
+<p style="text-align:justify;">Although an NFA has this ability to make multiple or empty transitions, yet it is not any more powerful than a DFA in terms of its <em>expressiveness</em>. Note that the set of all the input sequences which are accepted by a finite automaton (DFA or NFA), is said to be its language; or the automaton is said to <strong>express</strong> that language.  The statement that the expressive power of an NFA is same as that of DFA essentially means that for every language that is accepted by an NFA, an equivalent DFA can be constructed to accept the same language. On the other hand, if a language can not be expressed by a DFA, no NFA would be able to express that.</p>
+<h2 style="text-align:justify;">Algorithm –</h2>
+<p style="text-align:justify;">The process of building the equivalent DFA is quite mechanical. Here is the intuition behind it: the state an NFA is in, is a set (subset of <strong>Q</strong>); that set can be made to represent a single state of the equivalent DFA. So, if we build the power-set (a set of all possible subsets of a given set) of <strong>Q </strong>(i.e. <strong>2<sup>Q</sup></strong>) such that each set in this power-set represents a state of the equivalent DFA then the transitions corresponding to each symbol of the alphabet in NFA will take us from one such new state (effectively representing current active set) to another (representing the next active set). The transitions that have not been defined can all go to the state corresponding to the empty set. And that’s it! This technique is called the “<strong>subset construction algorithm</strong>“. Only, we will use a ‘lazy’ approach to build the subsets, meaning that a subset will be constructed only when it is needed.</p>
+<p style="text-align:justify;">This technique can be implemented in a couple of different ways. One such possibility is the following implementation of the algorithm:</p>
+<ul style="text-align:justify;">
+<li style="text-align:justify;"><strong>Preprocessing</strong>: Build a table (let’s call it <em>NFA-transitions</em>) – each row corresponds to a state in <strong>Q </strong>and each column corresponds to every symbol in the alphabet. An additional column corresponds to <em>∈. </em>In the cell corresponding to a row (state) say S, and a column (symbol), say <strong>α</strong>, we write the set of all the states that can be reached from S on reading symbol <strong>α</strong> (leaving out empty moves). In the cell corresponding to row S and <em>∈, </em>we write the set of all states, including S itself, that can be reached from S following only empty transitions.</li>
+</ul>
+<p style="border:1px solid #110000;padding:1em;text-align:justify;"><em>Note that the set of states reached from a given state by just following the empty transitions, including the state itself, is called the <strong>∈ – Closure</strong> of that state.</em></p>
+<ul style="text-align:justify;">
+<li style="text-align:justify;"><strong>Start building another table</strong> (let’s call it <em>DFA-transitions)</em>: A column corresponding to each symbol in the alphabet. A row will correspond to a subset of <strong>Q</strong> as and when a new subset is created.</li>
+</ul>
+<ol style="text-align:justify;">
+<li style="list-style-type:none;">
+<ol>
+<li><strong>Initial Step</strong>: Start from the initial state <strong>s:</strong> consider<strong> </strong>its set of states corresponding to <em>∈ – Closure </em>of <strong>s </strong>(as given in row s and column<em>∈ </em>of <em>NFA-transitions</em>). Add it as the first row in <em>DFA-transitions.</em></li>
+<li><strong>Repeat</strong>: To find the subset in the cell (in <em>DFA-transitions</em>) of a row corresponding to a subset (say <strong>P</strong>) and column corresponding to symbol <strong>α</strong>, we take the union of all the sets in the cells [<strong>p<sub>i</sub></strong>,<strong>α</strong>] of <em>NFA-transitions, </em>where <strong>p<sub>i</sub></strong> is a state in <strong>P</strong>, to get a <em>intermediate</em> subset; then take union of the <em>∈ – Closure </em>of each state in this partial subset. In effect, we are finding the next active set on reading <strong>α </strong>from the current active set (i.e. <strong>P</strong>). If the resulting subset is a new one (i.e. not already added as a row in <em>DFA-transitions</em>), add it as the new row. Recall that if there is no state in the resulting subset (equivalent to the empty set), it amounts to halting of NFA and thus it represents a trap-state. Also note that if any <strong>p<sub>i </sub></strong>is final<strong><sub> </sub></strong>in the NFA, <strong>P </strong>should be marked final.</li>
+<li><strong>Stop</strong>: When the table is complete and there is no new row to add in the table.</li>
+</ol>
+</li>
+</ol>
+<p style="text-align:justify;">The resulting table is the transition function of the equivalent DFA, the subset of each row is its one state, the subset of the first row is its initial state, all the subsets having at least one final state of the NFA are its set of final states. Of course, the alphabet remains the same.</p>
+<h2 style="text-align:justify;">Example –</h2>
+<p style="text-align:justify;">Let’s convert the NFA from the above section into its equivalent DFA. The table <em>NFA-transitions </em>is as follows:</p>
+<table>
+<tbody>
+<tr>
+<th>State</th>
+<th>0</th>
+<th>1</th>
+<th>∈</th>
+</tr>
+<tr>
+<td align="center">S0 (initial)</td>
+<td align="center"> Φ</td>
+<td align="center">  Φ</td>
+<td align="center"> {S0, S1, S3}</td>
+</tr>
+<tr>
+<td align="center">S1</td>
+<td align="center">{S2, S4}</td>
+<td align="center"> Φ</td>
+<td align="center">{S1, S3}</td>
+</tr>
+<tr>
+<td align="center">S2</td>
+<td align="center"> Φ</td>
+<td align="center"> Φ</td>
+<td align="center">{S2, S5}</td>
+</tr>
+<tr>
+<td align="center">S3</td>
+<td align="center"> Φ</td>
+<td align="center"> Φ</td>
+<td align="center"> {S3}</td>
+</tr>
+<tr>
+<td align="center">S4</td>
+<td align="center"> {S5}</td>
+<td align="center"> {S6}</td>
+<td align="center">  {S4}</td>
+</tr>
+<tr>
+<td align="center">S5</td>
+<td align="center"> Φ</td>
+<td align="center"> {S7}</td>
+<td align="center">  {S5}</td>
+</tr>
+<tr>
+<td align="center">S6 (final)</td>
+<td align="center">{S6}</td>
+<td align="center">  Φ</td>
+<td align="center">  {S6}</td>
+</tr>
+<tr>
+<td align="center">S7 (final)</td>
+<td align="center">  Φ</td>
+<td align="center">  Φ</td>
+<td align="center">  {S7}</td>
+</tr>
+</tbody>
+</table>
+<p style="text-align:justify;">Construction of the table <em>DFA-transitionsis</em>: We start from[S0,<em>∈</em>] ≡ {S0, S1, S3} as the first row. For the cell under 0 — Take union of the cell [S0, 0] (i.e. Φ), the cell [S1, 0] (i.e.{S2, S4}), and the cell [S3, 0] (i.e. Φ) which gives {S2, S4} as the intermediate subset. Then take union of the cell [S2,<em>∈</em>] (i.e.{S2, S5}), and the cell [S4,<em>∈</em>] (i.e. {S4}) which yields {S2, S4, S5}<em>. </em>Add <em>{S2, S4, S5} </em>as the new row as it, currently, is not in the table. Follow<em> </em>the same for symbol 1. And continue filling each cell until there is no cell left to fill. The resulting table is as follows:</p>
+<table>
+<tbody>
+<tr>
+<th>State</th>
+<th>0</th>
+<th>1</th>
+</tr>
+<tr>
+<td align="center"><strong>{S0, S1, S3}</strong> (initial)</td>
+<td align="center">Φ ∪ {S2, S4} ∪ Φ ≡ {S2, S4}<br>
+<= Intermediate set<br>
+{<em>S2, S5} ∪ {S4} ≡ {S2, S4, S5}<br>
+</em><span style="font-family:inherit;font-size:inherit;"><= </span><em style="font-family:inherit;font-size:inherit;">∈ – Closure<br>
+</em><em>Result: <strong>{S2, S4, S5} </strong></em></td>
+<td align="center">Φ ∪ Φ ∪ Φ ≡ Φ<br>
+<= Intermediate set<br>
+Φ<br>
+<= <em>∈ – Closure<br>
+</em><em>Result:<strong> </strong></em><strong><em>Φ<br>
+</em></strong><em>(</em><em>Φ is a trap state. Thus it does not need adding in the table.)</em></td>
+</tr>
+<tr>
+<td align="center"><em><strong>{S2, S4, S5} </strong></em></td>
+<td align="center">Φ ∪ {S5} ∪ Φ ≡ {S5}<br>
+<= Intermediate set<br>
+{S5}<br>
+<= <em>∈ – Closure</em><em><br>
+</em><em>Result: <strong>{S5} </strong></em></td>
+<td align="center">Φ ∪ {S6} ∪ {S7} ≡ {S6, S7}<br>
+<= Intermediate set<br>
+<em>{S6} ∪ {S7}</em><em> ≡ {S6, S7}</em><em> </em><br>
+<= <em>∈ – Closure</em><em><br>
+</em><em>Result: <strong>{S6, S7}<br>
+</strong></em><em>(It is a final state. Recall we need at least one to be final in the subset to declare it final and </em><em>it has two final states.)<strong><br>
+</strong></em></td>
+</tr>
+<tr>
+<td align="center"><em><strong>{S5}</strong></em></td>
+<td align="center">Φ<br>
+<= Intermediate set<br>
+Φ<br>
+<= <em>∈ – Closure</em><em><br>
+</em><em>Result: </em><strong><em>Φ </em></strong></td>
+<td align="center">{S7}<br>
+<= Intermediate set<br>
+{S7}<br>
+<= <em>∈ – Closure</em><em><br>
+</em><em>Result: <strong>{S7}</strong><br>
+</em><em>(It is a final state as it has one final state.)</em></td>
+</tr>
+<tr>
+<td align="center"><em><em><strong>{S6, S7} </strong></em></em><em>(final)</em></td>
+<td align="center">{S6} ∪ Φ ≡ {S6}<br>
+<= Intermediate set<br>
+{S6}<br>
+<= <em>∈ – Closure<br>
+</em><em>Result:<strong> {S6}<br>
+</strong></em><em>(It is a final state as it has one final state.)</em></td>
+<td align="center">Φ ∪ Φ ≡ Φ<br>
+<= Intermediate set<br>
+Φ<br>
+<= <em>∈ – Closure<br>
+</em><em>Result:<strong> </strong></em><strong><em>Φ</em></strong></td>
+</tr>
+<tr>
+<td align="center"><em><strong>{S7} </strong></em><em>(final)</em></td>
+<td align="center">Φ<br>
+<= Intermediate set<br>
+Φ<br>
+<= <em>∈ – Closure</em><em><br>
+</em><em>Result: </em><strong><em>Φ </em></strong></td>
+<td align="center">Φ<br>
+<= Intermediate set<br>
+Φ<br>
+<= <em>∈ – Closure</em><em><br>
+</em><em>Result: </em><strong><em>Φ </em></strong></td>
+</tr>
+<tr>
+<td align="center"><em><strong>{S6} </strong></em><em>(final)</em></td>
+<td align="center">{S6}<br>
+<= Intermediate set<br>
+{S6}<br>
+<= <em>∈ – Closure<br>
+</em><em>Result:<strong> {S6}<br>
+</strong></em><em>(It is a already in the table.)</em></td>
+<td align="center">Φ<br>
+<= Intermediate set<br>
+Φ<br>
+<= combined <em>∈ – Closure</em><em><br>
+</em><em>Result: </em><strong><em>Φ </em></strong></td>
+</tr>
+</tbody>
+</table>
+<p style="text-align:justify;"><i>Note that the table has an implicit row for <strong><em>Φ, </em></strong><em>it stays in <strong>Φ </strong>for each symbol of the alphabet (as it corresponds to a trap-state).</em></i></p>
+<p style="text-align:justify;">The resulting DFA is given below:</p>
+<h4 style="text-align:justify;"><img loading="lazy" decoding="async" class="  wp-image-2679 aligncenter" src="https://ritu-kundu.github.io/assets/uploads/2017/12/nfatodfa.png?resize=515%2C272&ssl=1" alt="NFAToDFA" width="515" height="272" srcset="https://ritu-kundu.github.io/assets/uploads/2017/12/nfatodfa.png?w=897&ssl=1 897w,https://ritu-kundu.github.io/assets/uploads/2017/12/nfatodfa.png?resize=300%2C159&ssl=1 300w,https://ritu-kundu.github.io/assets/uploads/2017/12/nfatodfa.png?resize=768%2C406&ssl=1 768w" sizes="(max-width: 515px) 100vw, 515px" data-recalc-dims="1"></h4>
+<h1 style="text-align:justify;"></h1>
+<hr>
+<hr>
+<h1 style="text-align:justify;">Why NFA?</h1>
+<p style="text-align:justify;">DFA is essentially a specialised NFA (with exactly one transition defined for each and every alphabet-symbol and no empty-transition defined) and an NFA can be converted into an equivalent DFA using the algorithm given above. The question now arises: if DFA and NFA are equivalent in the power to express, why do we need NFA at all?</p>
+<p style="text-align:justify;">The answer is based on the following two advantages of NFA over DFA:</p>
+<ol style="text-align:justify;">
+<li>The equivalent DFA can have exponential number of states (as is clear from the fact that states of the equivalent DFA is a subset of the power-set of states of the NFA i.e. <strong>2<sup>Q</sup></strong>).</li>
+<li style="text-align:justify;">It is easier to describe some languages using NFA than using a DFA. We will see a few examples.</li>
+</ol>
+<h2 style="text-align:justify;">Examples of NFA</h2>
+<p style="text-align:justify;">Recall that the set of all the input sequences that are accepted by a finite automaton is called its language. It might be a finite or infinite set. Following are some scenarios where expressing a language can be done more conveniently using an NFA.</p>
+<hr>
+<h3 style="text-align:justify;">Union</h3>
+<p style="text-align:justify;"><strong>Problem:</strong><em> If M1 and M2 are two DFAs that accept languages L1 and L2</em> <em>over an alphabet</em>, <em>respectively</em>, d<em>esign a finite automaton M that accepts all strings X such that X is in L1 ∪ L2.</em></p>
+<p style="border:1px solid #110000;padding:1em;text-align:justify;"><em>Mathematically, L ≡ L1 ∪ L2 ≡ {x | x ∈ L1 OR x ∈ L2 }. Here ∈ implies the set-membership.</em></p>
+<h4 style="text-align:justify;">Example</h4>
+<p style="text-align:justify;">If M1 accepts {“11”, “001”, “111”} and M2 accepts {“11”, “0101”}, then M should accept <em>L1 ∪ L2 ≡ </em>{“11”, “001”, “111”,”0101″}.</p>
+<h4 style="text-align:justify;">Design strategy</h4>
+<p style="text-align:justify;">Here, we will combine M1 and M2 to produce the desired result. The set of the states will be the combined (or union) set of the states coming from M1 and M2; and the alphabet will remain the same. The transition function within both M1 and M2 remains the same. Any string in L1 or L2 should be accepted => final states of M1 and M2 remain the same. But we now have two initial states (one from both, M1 and M2). All we need to do is make them ‘non-initial’ and add a new initial state with empty-transitions to each of the old initial states. In effect, we will start from the new initial state, take the empty-transition (without consuming any input symbol), and will reach the old initial states. From there, if the input reaches a final state of either M1 or M2, it reaches in essence the final state of M.</p>
+<p style="text-align:justify;">Diagrammatically, it can be shown as follow:</p>
+<p style="text-align:justify;"><img loading="lazy" decoding="async" class="  wp-image-2682 aligncenter" src="https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_union.png?resize=346%2C414&ssl=1" alt="NFA_UNION" width="346" height="414" srcset="https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_union.png?w=878&ssl=1 878w,https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_union.png?resize=251%2C300&ssl=1 251w,https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_union.png?resize=768%2C919&ssl=1 768w,https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_union.png?resize=855%2C1024&ssl=1 855w" sizes="(max-width: 346px) 100vw, 346px" data-recalc-dims="1"></p>
+<p style="text-align:justify;">Mathematically, it can be described as follows:</p>
+<p><img loading="lazy" decoding="async" class="alignnone size-full wp-image-2702" src="https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_m_union3.png?resize=640%2C142&ssl=1" alt="NFA_m_Union" width="640" height="142" srcset="https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_m_union3.png?w=1243&ssl=1 1243w,https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_m_union3.png?resize=300%2C66&ssl=1 300w,https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_m_union3.png?resize=768%2C170&ssl=1 768w,https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_m_union3.png?resize=1024%2C227&ssl=1 1024w" sizes="(max-width: 640px) 100vw, 640px" data-recalc-dims="1"></p>
+<p style="text-align:justify;">An alternative description can be expressed as:</p>
+<p style="text-align:justify;"><img loading="lazy" decoding="async" class="  wp-image-2685 aligncenter" src="https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_m_union2.png?resize=523%2C214&ssl=1" alt="NFA_m_Union" width="523" height="214" srcset="https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_m_union2.png?w=2482&ssl=1 2482w,https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_m_union2.png?resize=300%2C122&ssl=1 300w,https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_m_union2.png?resize=768%2C313&ssl=1 768w,https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_m_union2.png?resize=1024%2C418&ssl=1 1024w,https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_m_union2.png?resize=1568%2C640&ssl=1 1568w,https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_m_union2.png?w=1280&ssl=1 1280w,https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_m_union2.png?w=1920&ssl=1 1920w" sizes="(max-width: 523px) 100vw, 523px" data-recalc-dims="1"></p>
+<hr>
+<h3 style="text-align:justify;">Concatenation</h3>
+<p style="text-align:justify;"><strong>Problem:</strong><em> If M1 and M2 are two DFAs that accept languages L1 and L2</em> <em>over an alphabet</em>, <em>respectively</em>, d<em>esign a finite automaton M that accepts all strings X such that X is in L1<strong>.</strong>L2.</em></p>
+<p style="border:1px solid #110000;padding:1em;text-align:justify;"><em>Mathematically, L ≡ L1 . L2 ≡ {xy | x ∈ L1 AND y ∈ L2 }. Here ∈ implies the set-membership.</em></p>
+<h4 style="text-align:justify;">Example</h4>
+<p style="text-align:justify;">Concatenation (represented by “.” i.e. a dot) means that the input sequence (string) is some string from L1 followed by some string from L2. For instance, if M1 accepts {“11”, “001”} and M2 accepts {“11”, “0101”}, then M should accept <em>L1.L2 ≡ </em>{“1111”, “00111”, “110101”,”0010101″}.</p>
+<h4 style="text-align:justify;">Design strategy</h4>
+<p style="text-align:justify;">Again, we will combine M1 and M2 to produce the desired result. The set of states will be the combined (or union) set of the states coming from M1 and M2; and the alphabet will remain the same. Transition function within both M1 and M2 remains the same. Any string in L1 must be followed by another from L2 to be accepted => final states of M is same as that of M2 and final states of M1 are not final any longer. The valid sequence should start from a string of L1 => Initial state of M1 is the initial state of M and initial state of M2 is no longer initial. Also, once the part of the input from L1 is over, the remaining part immediately after it should be from L2. Thus, we need empty-transitions (which do not consume any input symbol) from the final states of M1 to the initial state of M2.  In effect, we will start from the initial state of M1, if we reach its final state ( => the first part of the input comes from L1) then we take the empty-transition (without consuming any input symbol) and reach the initial state of M2. From there, if the input reaches its final state ( => the second or last part of the input comes from L2), it reaches the final state of M2 which is the same as the final state of M.</p>
+<p style="text-align:justify;">Diagrammatically, it can be shown as follow (the dotted inner circle implies that this is not a final state any longer):</p>
+<p style="text-align:justify;"><img loading="lazy" decoding="async" class="  wp-image-2681 aligncenter" src="https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_concat.png?resize=494%2C217&ssl=1" alt="NFA_Concat" width="494" height="217" srcset="https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_concat.png?w=1121&ssl=1 1121w,https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_concat.png?resize=300%2C132&ssl=1 300w,https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_concat.png?resize=768%2C338&ssl=1 768w,https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_concat.png?resize=1024%2C450&ssl=1 1024w" sizes="(max-width: 494px) 100vw, 494px" data-recalc-dims="1"></p>
+<p style="text-align:justify;">The mathematical description is:</p>
+<p><img loading="lazy" decoding="async" class="alignnone size-full wp-image-2700" src="https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_m_concat2.png?resize=640%2C150&ssl=1" alt="NFA_m_Concat" width="640" height="150" srcset="https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_m_concat2.png?w=1291&ssl=1 1291w,https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_m_concat2.png?resize=300%2C70&ssl=1 300w,https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_m_concat2.png?resize=768%2C180&ssl=1 768w,https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_m_concat2.png?resize=1024%2C240&ssl=1 1024w" sizes="(max-width: 640px) 100vw, 640px" data-recalc-dims="1"></p>
+<hr>
+<h3 style="text-align:justify;">Kleene Star</h3>
+<p style="text-align:justify;"><strong>Problem:</strong><em> If M1 is a DFA that accept language L1 </em><em>over an alphabet then</em> d<em>esign a finite automaton M that accepts all strings X such that X is in L1<sup>*</sup>.</em></p>
+<p style="border:1px solid #110000;padding:1em;text-align:justify;"><em>Mathematically, L ≡ L1<sup>*</sup> ≡ {x<sub>1</sub>x<sub>2</sub>x<sub>3</sub>…x<sub>i</sub> |x<sub>i</sub> ∈ L1 and i ≥ 0 }. Here ∈ implies the set-membership.<br>
+L1<sup>0</sup> is empty string; L1<sup>1</sup> is L1; L1<sup>2</sup> is concatenation of any two strings from L1; and so on.<br>
+L1<sup>*</sup> ≡L1<sup>0</sup> ∪ L1<sup>1</sup> ∪ L1<sup>2 </sup>∪ …<br>
+Thus L1<sup>* </sup>is an infinite language.</em></p>
+<h4 style="text-align:justify;">Example</h4>
+<p style="text-align:justify;">Kleene Star (represented by “*” i.e. an asterisk as superscript) means that the input sequence (string) is some string from L1 followed by the same or another string from L1 and so on. It also includes the empty string. For instance, if M1 accepts {“11”, “001”} then M should accept <em>L1<sup>*</sup> ≡ </em>{<em>∈</em><em>, “11”, “001”, </em>“1111”, “00111”, “11001”,”001001″, …}.</p>
+<h4 style="text-align:justify;">Design strategy</h4>
+<p style="text-align:justify;">Here, we will modify M1 to produce the desired result. The set of the states will be the same as the set of the states coming from M1; and the alphabet will remain the same. The transition function within M1 remains the same. Any string in L1 may be followed by zero or more strings from L1 to be accepted => as soon as the part of the sequence corresponding to one string from L1 ends, another string of L1 must start immediately => final states of M1 should lead back to its initial state using empty-moves. As M should accept an empty string also, the initial state should be final. What if the initial state is not final? We add another initial state which is also final and add an empty-transition from it to the old initial state.</p>
+<p style="text-align:justify;">Diagrammatically, it can be shown as follow:</p>
+<p style="text-align:justify;"><img loading="lazy" decoding="async" class="  wp-image-2687 aligncenter" src="https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_kleene1.png?resize=342%2C279&ssl=1" alt="NFA_Kleene" width="342" height="279" srcset="https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_kleene1.png?w=862&ssl=1 862w,https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_kleene1.png?resize=300%2C245&ssl=1 300w,https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_kleene1.png?resize=768%2C626&ssl=1 768w" sizes="(max-width: 342px) 100vw, 342px" data-recalc-dims="1"></p>
+<p style="text-align:justify;">Mathematically,</p>
+<p><img loading="lazy" decoding="async" class="alignnone size-full wp-image-2701" src="https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_m_kleene1.png?resize=640%2C135&ssl=1" alt="NFA_m_Kleene" width="640" height="135" srcset="https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_m_kleene1.png?w=1188&ssl=1 1188w,https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_m_kleene1.png?resize=300%2C63&ssl=1 300w,https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_m_kleene1.png?resize=768%2C162&ssl=1 768w,https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_m_kleene1.png?resize=1024%2C215&ssl=1 1024w" sizes="(max-width: 640px) 100vw, 640px" data-recalc-dims="1"></p>
+<p style="text-align:justify;">An important point to note here is that simply making the old initial state to be final (instead of adding a new initial state to make it final) will not work in all cases. Consider, for instance, a case when the initial state is non-final and a symbol, say 0, makes a loop on it (i.e. 0 takes it back to itself); here, a sequence of 0s will be rejected. If we had made it final for M then the sequence of 0s would have been accepted by M, which is definitely wrong. Therefore, it is safer to add a new initial state and make that final.</p>
+<p style="border:1px solid #110000;padding:1em;text-align:justify;"><em>Similarly the FA accepting the <strong>complement of a language</strong> L1 can be computed by changing all the final states to non-final and all the non-final states to final. Note that the complement of a language i.e. L ≡ L1<sup>C</sup> ≡ {x | x ∉ L1 } accepts all strings which are not in L1 (rejected by M1) and reject those which are in L1 (i.e. which M1 accepts).<br>
+</em></p>
+<p style="border:1px solid #110000;padding:1em;text-align:justify;"><em>In the same sense, intersection of languages i.e. L ≡ L1<span style="font-size:13.3333px;"> ∩</span> L2 ≡ {x | x∈ L1 AND x∈ L2 } accepts a strings if and only if it is in both L1 and L2 (i.e. accepted by both M1 and M2).<br>
+We can make use of the property:  L1 ∩ L2 ≡ (L1<sup>C</sup> ∪ L2<sup>C</sup>)<sup>C</sup><br>
+Build NFAs for complement of L1 and complement of L2 separately, combine them using rules for the union and build the complement of the resulting union NFA.</em></p>
+<p style="border:1px solid #110000;padding:1em;text-align:justify;"><i>All these NFAs built can be converted using equivalent DFA using the subset construction algorithm. </i></p>
+<hr>
+<h3 style="text-align:justify;">Suffix</h3>
+<p style="text-align:justify;"><strong>Problem:</strong><em> If M1 is a DFA that accept language L1 </em><em>over an alphabet then</em> d<em>esign a finite automaton M that accepts all strings X such that X is a suffix of some string in L1.</em></p>
+<p style="border:1px solid #110000;padding:1em;text-align:justify;"><em>Mathematically, L ≡ {x | yx ∈ L1 for some y}. Here ∈ implies the set-membership.<br>
+</em></p>
+<h4 style="text-align:justify;">Example</h4>
+<p style="text-align:justify;">A suffix is a subsequence that can begin somewhere in the given sequence and goes until the end. Note that the complete sequence is also a suffix of itself. If M1 accepts {“11”, “001”} then M should accept <em>L1<sup>*</sup> ≡ </em>{<em>“11”, “001”, </em>“1”, “01”}.</p>
+<h4 style="text-align:justify;">Design strategy</h4>
+<p style="text-align:justify;">The string accepted by M may start anywhere in a valid string accepted by M1  => final states of M1 should remain the same and for every path leading to some final state and starting from the initial state, we add empty-transitions from the initial state to every state in such a path.</p>
+<p style="text-align:justify;">Mathematically,</p>
+<p><img loading="lazy" decoding="async" class="alignnone size-full wp-image-2699" src="https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_m_suffix1.png?resize=640%2C134&ssl=1" alt="NFA_m_Suffix" width="640" height="134" srcset="https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_m_suffix1.png?w=1288&ssl=1 1288w,https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_m_suffix1.png?resize=300%2C63&ssl=1 300w,https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_m_suffix1.png?resize=768%2C160&ssl=1 768w,https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_m_suffix1.png?resize=1024%2C214&ssl=1 1024w" sizes="(max-width: 640px) 100vw, 640px" data-recalc-dims="1"></p>
+<hr>
+<h3 style="text-align:justify;">Reverse</h3>
+<p style="text-align:justify;"><strong>Problem:</strong><em> If M1 is a DFA that accept language L1 </em><em>over an alphabet then</em> d<em>esign a finite automaton M that accepts all strings X such that X is revere of some string in L1.</em></p>
+<p style="border:1px solid #110000;padding:1em;text-align:justify;"><em>Mathematically, L ≡ L1<sup>R</sup> ≡ {x<sup>R</sup> | x ∈ L1}. Here ∈ implies the set-membership.<br>
+</em></p>
+<h4 style="text-align:justify;">Example</h4>
+<p style="text-align:justify;">The reverse of a sequence is the sequence obtained by reading the given sequence in opposite direction. If M1 accepts {“11”, “001”} then M should accept <em>L1<sup>R</sup> ≡ </em>{<em>“11”, “100”</em>}.</p>
+<h4 style="text-align:justify;">Design strategy</h4>
+<p style="text-align:justify;">The string accepted by M is the reverse of a valid string accepted by M1  => the input should start from one of the final states of M1, move in the opposite direction, and reach the initial state. Thus — make the final states as non-final; make initial state as final; reverse the direction of the arrows in every path from the old final states to the old initial state.  What about the initial state in M? It should be the old final state from which the input began. But what if there are multiple final states in M1? To resolve it, we need to add a new initial state and empty-transitions from that to the old final states.</p>
+<p style="text-align:justify;">Mathematically,</p>
+<p><img loading="lazy" decoding="async" class="alignnone size-full wp-image-2698" src="https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_m_reverse1.png?resize=640%2C131&ssl=1" alt="NFA_m_Reverse" width="640" height="131" srcset="https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_m_reverse1.png?w=1097&ssl=1 1097w,https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_m_reverse1.png?resize=300%2C62&ssl=1 300w,https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_m_reverse1.png?resize=768%2C158&ssl=1 768w,https://ritu-kundu.github.io/assets/uploads/2017/12/nfa_m_reverse1.png?resize=1024%2C210&ssl=1 1024w" sizes="(max-width: 640px) 100vw, 640px" data-recalc-dims="1"></p>
+<p style="border:1px solid #110000;padding:1em;text-align:justify;"><em>Similarly, the FA accepting the </em><strong>prefix </strong><em>of a some string in L1 can be computed by changing all the states to final, in every path that starts from the initial state and ends in some original final state .  Here, L ≡ {x | xy ∈ L1 for some y}. Here ∈ implies the set-membership. </em></p>
+<p style="text-align:justify;"><strong>PS: On the mathematical description:</strong></p>
+<p style="text-align:justify;">Firstly, we are assuming that the given automata are DFA. The same justification should work if those automata were NFA.</p>
+<p style="text-align:justify;">Secondly, the more rigorous mathematical standards would require us to use set notation for the transition function expressed in the mathematical descriptions (since the transition function of an NFA results in a set of states). I have been a bit lax here, aiming to capture the intuition rather than focussing on the symbolic correctness of the notations. Ideally, individual states in this expression should definitely be represented as a set. As for the expressions involving δ<sub>1</sub> and δ<sub>2</sub>, it depends on whether M1 and M2 are NFA or DFA. In case of DFA, it should be enclosed in set-braces while δ for NFA outputs a set, so it doesn’t need the braces.</p>
+<p>Lastly, the final set of δ(q, α) will be the union of the sets obtained from each condition that has been satisfied. For example, consider the expression of Kleene; q may satisfy both the conditions, namely, q is in Q<sub>1</sub> and q is in F<sub>1</sub>, then δ(q, α) will be δ<sub>1</sub>(q, α) ∪ {s}. If no condition is satisfied, the result is same as an empty set. Also, we assume that if M1 (or M2) is DFA, then δ<sub>1</sub>(q,<em>∈</em>) (or δ<sub>2</sub>(q,<em>∈</em>)) is an empty set.</p>
+<h2 style="text-align:justify;">Epilogue:</h2>
+<p style="text-align:justify;">Please pardon the verbosity, oversimplification, and baby-steps. This part of the post is also more relevant to undergraduate students. Move onto the next part .🙂</p>
+<p style="text-align:justify;">Cheers!</p>
+<p> </p>
+
+</div>
+</article>
+
+</main></div>

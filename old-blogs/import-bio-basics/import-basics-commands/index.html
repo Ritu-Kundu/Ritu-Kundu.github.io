@@ -1,0 +1,113 @@
+---
+layout: post
+title: Import Basics.Commands | Ritu Kundu
+coltype: no-sidebar
+---
+<div id="primary" class="featured-content content-area"><main id="main" class="site-main">	
+<article id="post-2775" class="posts-entry fbox post-2775 post type-post status-publish format-standard hentry category-uncategorized">
+	<header class="entry-header">
+		<h1 class="entry-title">Import Basics.Commands</h1>
+		<div class="entry-meta"><div class="blog-data-wrapper">
+			<div class="post-data-divider"></div>
+			<div class="post-data-positioning"><div class="post-data-text">
+				<span class="posted-on">Posted on <a href="/old-blogs/import-bio-basics/import-basics-commands/" rel="bookmark"><time class="entry-date published" datetime="2019-03-29T10:10:36+00:00">March 29, 2019</time><time class="updated" datetime="2019-10-09T23:54:28+00:00">October 9, 2019</time></a></span><span class="byline"> by <span class="author vcard"><a class="url fn n" href="https://ritu-kundu.github.io/author/rituritukundugmailcom/">Ritu Kundu</a></span></span>
+			</div></div>
+		</div></div>
+	</header>
+
+	<div class="entry-content">
+		<p>Here, are a few basic commands (too basic for those who have ever worked in linux) and instructions for installation of a couple of useful tools that was a kind of pre-requisite for setting up my working environment.</p>
+<ol>
+<li><strong>View beginning of a file: </strong>
+<pre><code>head -n3 file.txt</code></pre>
+<p>It displays the first 3 lines of the file.</p></li>
+<li><strong>Finding the number of threads possible: </strong>
+<pre><code>lscpu</code></pre>
+<p>It displays a lot of details: #threads = #cpu (“sockets”) * #cores_per_cpu (“Cores per socket”) * #threads_per_core (“Threads per core”).</p></li>
+<li><strong>View a file: </strong>
+<pre><code>cat file.txt</code></pre>
+<p>It displays the whole file in one go. To read it in fragments (screen-full), one option is to use editor like nano. Another, better in my opinion, option is to use less<strong>: </strong><code>less file.txt</code><br>
+Use CTRL+F or CTRL+B to move forward or backward. There are other many useful navigation option. Use :q to quit.</p></li>
+<li><strong>Viewing content of an archived/compressed folder without extracting: </strong>
+<pre><code>tar -tvf </code></pre>
+<p>It displays the human-readable summary of the files in the current directory.</p></li>
+<li><strong>Viewing summary/file-sizes of files in a directory: </strong>
+<pre><code>ls -sh .</code></pre>
+<p>It displays the human-readable summary of the files in the current directory.</p></li>
+<li><strong>Viewing and killing a process: </strong>
+<pre><code>ps -a</code></pre>
+<p>It displays the running processes with their pid.</p>
+<pre><code>kill pid</code></pre>
+<p>will kill a running process with the given pid.</p></li>
+<li><strong>Viewing space taken by a directory: </strong>
+<pre><code>du -h .</code></pre>
+<p>It displays the human-readable (<code>-h</code> flag) disk-space consumed by the current directory and its sub-directories. Use <code>-s</code> flag to see the total and -a to include files as well. Use <code>--max-depth n</code> to see space used by sub-directories up to level n.</p></li>
+<li><strong>Creating sym-links of all the files in one directory: </strong>
+<pre><code>ln -s path/to/src/dir/* path/to/dest/dir</code></pre>
+<p>Note that it will not create sym-links to the hidden files.</p></li>
+<li><strong>Writing output to files in addition to the std output: </strong>
+<pre><code><command></command>some-command | tee file.txt</code></pre>
+<p>It will write the output of the program to std terminal as well as to the file.txt .</p></li>
+<li><strong>Redirection:<br>
+</strong>
+<pre><code>some-command > file.txt</code></pre>
+<p>“<code>></code>” is for redirecting stdout. It will be overwritten. Use “<code>>></code>” for appending and not over-writing.</p>
+<pre><code>some-command 2> file.txt</code></pre>
+<p>“<code>2></code>” is for redirecting stderr (The file descriptor for stderr is 2, stdout is 1, and stdin is 0).</p>
+<pre><code><command></command> some-command >  2>&1</code></pre>
+<p>“<code>2>&1</code>” is for redirecting sterr to stdout. Here, stdout is redirected to . Therefore, stderr and stdout will be written to .</p></li>
+<li><strong>Moving the whole directory along with the hidden files: </strong>
+<pre><code>mv /sourcedir/{,.[^.]}* /destdir/</code></pre>
+<p>It will exclude <code>.</code> (pwd) and <code>..</code>(parent directory) as is usually desired.</p></li>
+<li><strong>Disassociate the running process from the current terminal without stopping :<br>
+</strong>As it happens to me several times, I start a command (like wget) in a terminal and then I have to close the terminal with the command not yet finished and I prefer not to start the command from scratch using <code>nohup</code>. This is how we can proceed:<br>
+Hit
+<pre><code>ctrl+z</code></pre>
+<p>for suspending the current foreground process (and place it as the stopped job). It will return something like</p>
+<pre><code>[1]+ Stopped <Command> </code></pre>
+<p>where 1 is the Job number.<br>
+Run</p>
+<pre><code>bg %1</code></pre>
+<p>to start running the Job number 1 in the background.<br>
+Run</p>
+<pre><code>disown</code></pre>
+<p>for removing the Job from the list of the current shell (so that SIGHUP is not passed on to the process when the shell closes); Without job number, disown runs on the current process i.e. the process just ‘backgrounded’.</p></li>
+</ol>
+<h1>Some assembly related commands</h1>
+<ol>
+<li>To count number of reads in .fastq.gz:
+<pre><code>parallel "echo {} && gunzip -c {} | wc -l | awk '{d=\$1; print d/4;}'" ::: *.gz<code></code></code></pre>
+</li>
+<li>To count number of reads in .fasta:
+<pre><code>grep -c '^>' file.txt</code></pre>
+</li>
+<li>To check first two lines of .fastq.gz:
+<pre><code> zcat name_R1.fastq.gz | head -2</code></pre>
+</li>
+<li>To count length of each line:
+<pre><code> awk '{print length($0)}'</code></pre>
+</li>
+</ol>
+<h1>GCC Issue</h1>
+<p>Installing newer version of gcc locally: Follow <a href="https://gcc.gnu.org/wiki/InstallingGCC" target="_blank" rel="noopener noreferrer">this</a> for configuration and then the following to ~/.bashrc:</p>
+<pre class="highlight"><code>export PATH=~/gcc-8.2.0/bin:$PATH
+export LD_LIBRARY_PATH=~/gcc-8.2.0/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=~/gcc-8.2.0/lib64:$LD_LIBRARY_PATH</code></pre>
+<p><em>Trouble</em>: cmake still takes the older version.</p>
+<p>Quick hack (gcc-8.2.0 is the latest version I installed locally):</p>
+<pre>export CC=~/gcc-8.2.0/bin/gcc
+export CXX=~/gcc-8.2.0/bin/g++</pre>
+<p>Or to permanently make this change, add the above lines in ~/.bash_profile:</p>
+<h1>PSCP</h1>
+<p>Securely copying files from linux to windows. Manual is <a href="https://the.earth.li/~sgtatham/putty/0.60/htmldoc/Chapter5.html" target="_blank" rel="noopener noreferrer">here</a></p>
+<p>Install pscp. In command prompt, write the following (to copy all files with extension “.ext” from the source directory into current directory ):</p>
+<pre>pscp -unsafe username@servername:/path/to/source/directory/*.ext .</pre>
+<p>I used -unsafe because I trust my server and it doesn’t support sftp.</p>
+<h1>Other Resources:</h1>
+<blockquote class="wp-embedded-content" data-secret="Ot4zUSVQlu"><p><a href="http://www.sixthresearcher.com/list-of-helpful-linux-commands-to-process-fastq-files-from-ngs-experiments/">List of helpful Linux commands to process FASTQ files from NGS experiments</a></p></blockquote>
+<p><iframe title="“List of helpful Linux commands to process FASTQ files from NGS experiments” — Sixth researcher" class="wp-embedded-content" sandbox="allow-scripts" security="restricted" style="position: absolute; clip: rect(1px, 1px, 1px, 1px);" src="http://www.sixthresearcher.com/list-of-helpful-linux-commands-to-process-fastq-files-from-ngs-experiments/embed/#?secret=Ot4zUSVQlu" data-secret="Ot4zUSVQlu" width="600" height="338" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe></p>
+
+</div>
+</article>
+
+</main></div>

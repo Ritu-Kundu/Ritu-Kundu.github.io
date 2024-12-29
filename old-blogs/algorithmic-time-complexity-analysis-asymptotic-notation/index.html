@@ -1,0 +1,201 @@
+---
+layout: post
+title: Algorithmic time complexity analysis - Asymptotic-notation | Ritu Kundu
+coltype: no-sidebar
+---
+<div id="primary" class="featured-content content-area"><main id="main" class="site-main">
+<article id="post-499" class="posts-entry fbox post-499 post type-post status-publish format-standard has-post-thumbnail hentry category-algorithm-design-and-analysis">
+	<div class="featured-thumbnail">
+			<a href="/old-blogs/algorithmic-time-complexity-analysis-asymptotic-notation/" rel="bookmark"><img width="538" height="382" src="https://ritu-kundu.github.io/assets/uploads/2016/10/complexity_grapph1.png?fit=538%2C382&ssl=1" class="attachment-minimalistblogger-slider size-minimalistblogger-slider wp-post-image" alt="" decoding="async" fetchpriority="high" srcset="https://ritu-kundu.github.io/assets/uploads/2016/10/complexity_grapph1.png?w=538&ssl=1 538w,https://ritu-kundu.github.io/assets/uploads/2016/10/complexity_grapph1.png?resize=300%2C213&ssl=1 300w" sizes="(max-width: 538px) 100vw, 538px"></a>
+	</div>
+	<header class="entry-header">
+		<h1 class="entry-title">Algorithmic Time-Complexity Analysis: Asymptotic Notation</h1>
+		<div class="entry-meta"><div class="blog-data-wrapper">
+			<div class="post-data-divider"></div>
+			<div class="post-data-positioning"><div class="post-data-text">
+					<span class="posted-on">Posted on <a href="/old-blogs/algorithmic-time-complexity-analysis-asymptotic-notation/" rel="bookmark"><time class="entry-date published updated" datetime="2016-10-18T06:30:00+00:00">October 18, 2016</time></a></span><span class="byline"> by <span class="author vcard"><a class="url fn n" href="https://ritu-kundu.github.io/author/rituritukundugmailcom/">Ritu Kundu</a></span></span>
+			</div></div>
+		</div></div>
+	</header>
+
+	<div class="entry-content">
+		<h2>Motivation:</h2>
+<p style="text-align:justify;">When we talk about efficiency of an algorithm, we generally refer to the resources (time, space etc.) that the algorithm will consume for a given input. Especially, we usually are interested in how an algorithm will behave (as in how much time or space will be consumed) for voluminous input size.</p>
+<p style="text-align:justify;">A solution to predict the behaviour (say running time) is to come up with a function ƒ(<em>n</em>) that emulates the the time taken by the algorithm  for a given input of size n<em>;</em> it can be done by implementing the algorithm, executing it for different input-sizes while recording the processing-time taken, and plotting a graph (input-size on x-axis and running-time on y axis). A clear disadvantage in this approach is the dependence on too many external factors — programming language used for implementation; computing machine, its architecture and operating system etc. used for execution; how many other programs are running on the same machine while execution; and so on. We would like to abstract the analysis of the algorithm from all these external factors that do not have anything to do with the algorithm itself. Not only that, while comparing the performance of two algorithms so as to choose the better of the two, we do not want interference from any other external factor. Mathematics provides the abstraction technique required while analysing efficiency of an algorithm, namely — Asymptotic Notation.</p>
+<h2>Asymptotic Notation:</h2>
+<p style="text-align:justify;">Let us assume that, for an input of size <em>n, </em>the running time of an algorithm is represented by a function<em> T(n).</em> <em>T(n) </em>can be any function but for easy analysis we would like to have running-time expressed in terms of ‘simpler’ functions (whose behaviour we already know) that more or less approximate <em>T(n)</em> to give some sort of ‘guarantees’.<em> </em>Asymptotic notation provides us the bounds of <em>T(n)</em> when <em>n</em> grows towards large value (tends to infinity)<em><em>. </em></em></p>
+<h3 style="text-align:justify;">Mathematical view –</h3>
+<p style="text-align:justify;">Consider the following graph to grasp the mathematical meaning of the asymptotic notation.</p>
+<p><img decoding="async" class="aligncenter size-medium wp-image-599" src="https://ritu-kundu.github.io/assets/uploads/2016/10/complexity_grapph1.png?resize=300%2C213&ssl=1" alt="complexity_grapph" width="300" height="213" srcset="https://ritu-kundu.github.io/assets/uploads/2016/10/complexity_grapph1.png?w=538&ssl=1 538w,https://ritu-kundu.github.io/assets/uploads/2016/10/complexity_grapph1.png?resize=300%2C213&ssl=1 300w" sizes="(max-width: 300px) 100vw, 300px" data-recalc-dims="1"></p>
+<p style="text-align:justify;">Assuming that <em>f(n)</em> is a simple function ‘known’ to us (e.g. linear, polynomial, exponential, logarithmic etc.) and <em>c</em> is a constant, we can say that for any value of <em>n</em> after <em>n<sub>0</sub></em>, <em>T(n)</em> will never be greater than <em>c.f(n)</em>. Simply we can say that <em>T(n)</em> is <strong>order of</strong> f(n) and write it as follows:</p>
+<p style="text-align:center;"><strong><em>T(n) = O(f(n))</em></strong></p>
+<p style="text-align:justify;">Thus, the <strong>O</strong> (pronounced big-oh) notation is the formal way of expressing the upper bound of an algorithm’s running time. More formally, for two non-negative functions, <em>T(n)</em> and <em>f(n)</em>, if there exists an integer  n<sub>0</sub><em> </em>and a constant <em>c > 0</em> such that for all integers n > n<sub>0</sub>, T(n) ≤ cf(n), then <em>T(n)</em> is Big O of <em>f(n)</em>. This is denoted as <strong><em>T(n) = O(f(n))</em></strong>.</p>
+<p style="text-align:left;">Analogously, we can express the lower bound in terms of big-omega notation.</p>
+<p style="text-align:left;"><img decoding="async" class="aligncenter size-medium wp-image-633" src="https://ritu-kundu.github.io/assets/uploads/2016/10/complexity_grapph21.png?resize=300%2C218&ssl=1" alt="complexity_grapph2" width="300" height="218" srcset="https://ritu-kundu.github.io/assets/uploads/2016/10/complexity_grapph21.png?w=525&ssl=1 525w,https://ritu-kundu.github.io/assets/uploads/2016/10/complexity_grapph21.png?resize=300%2C218&ssl=1 300w" sizes="(max-width: 300px) 100vw, 300px" data-recalc-dims="1"></p>
+<p style="text-align:justify;">Here, <em>T(n)</em> and g<em>(n)</em> two non-negative functions and there exists an integer  n<sub>0</sub><em> </em>and a constant d<em> > 0</em> such that for all integers n > n<sub>0</sub>, T(n) ≥ d.g(n), therefore <strong><em>T(n) = Ω(g(n))</em></strong>.</p>
+<p style="text-align:justify;">There is another notation, called theta notation: For non-negative functions, <em>T(n)</em> and <em>f(n)</em>, <em>T(n)</em> is theta of <em>f(n)</em> if and only if <em>T(n) = <strong>O</strong>(f(n))</em> and <em>T(n) = <strong>Ω</strong>(f(n))</em>. This is denoted as <em><strong>T(n) = Θ(f(n))</strong></em>. Simply, it implies that T(n) is upper-bounded as well as lower-bounded by the same function.</p>
+<p style="text-align:justify;">Note that we should use as tight bound as possible.</p>
+<h3 style="text-align:justify;">Algorithmic View –</h3>
+<p style="text-align:justify;">Consider an algorithm — <strong>linear search</strong> — that finds a number in a given array of numbers by looking at each number starting from the first until it finds the number or the array ends. What is the worst case here (i.e. when the algorithm runs longest)? Answer is when the number we are trying to find is the last element of array or it not there at all. Similarly, the best case scenario (i.e. algorithm runs for the shortest time) is when the number is the first element of the array.</p>
+<p style="text-align:justify;">The <strong>O</strong> notation represents the longest running-time of an algorithm for a given input size. In a way, it represents the time taken in the worst case scenarios (that force the algorithm to run the longest).  The  <strong><em>Ω  </em></strong>notation, on the other hand, is to express best case scenarios. For the above mentioned algorithm, assuming that looking at (comparing with) one element of array takes constant time,  running time <em>T(n)</em> is <strong><em>O(n)</em></strong> [it will stop after checking n numbers] and <strong><em>Ω(1) </em></strong>[it will stop after just constant number of operations]<strong><em>.</em></strong></p>
+<p style="text-align:justify;">If the algorithm had been designed such that it will go through all numbers of the array even after it has found the given number, then <em>T(n)</em> would have not only been <strong><em>O(n) </em></strong>but also <strong><em>Ω(n). </em></strong>In this case we  would have said T(n) = <em><strong>Θ(n)</strong>.</em></p>
+<p style="border:1px solid #110000;padding:1em;text-align:justify;"><i>A more pedantic way is to see the bounds of the time taken by the algorithm on the worst case input and  the best case input separately. In other words, specifying the <strong>O</strong> notation and <strong><em>Ω  </em></strong>notation for each — the worst-case input and the best case input –separately. Of course, upper bound of the worst case and the lower bound of the best case will constitute the overall <strong>O</strong> notation and <strong><em>Ω  </em></strong>notation of the algorithm, respectively. </i>For example, in linear search:<br>
+<strong>1. The worst case</strong> (when the element is not present in the sequence):<br>
+upper-bound -> linear (<strong><em>T(n) =O(n)</em></strong>)<br>
+lower- bound -> linear (<strong><em>T(n) =Ω(n)</em></strong>)<br>
+Therefore, the worst case time is <em><strong>Θ(n)</strong>.</em><br>
+<em><strong>2.</strong> <strong>T</strong></em><em><strong>he best case</strong> (when the element is the first in the sequence):<br>
+upper-bound -> constant (<strong>T(n) =O(1)</strong>)<br>
+lower- bound -> constant (<strong>T(n) =Ω(1)</strong>)<br>
+Therefore, the best case time is <strong>Θ(1)</strong>.<br>
+</em>But the algorithm, overall, is <strong>O(n)</strong> and <strong>Ω(1).</strong></p>
+<h2 style="text-align:justify;">Calculating the O notation:</h2>
+<p>The mathematical definition is usually not used to calculate the big-oh notation of some function <em>T(n)</em>. There are some simple rules to compute the <strong>O</strong> notation, given as follows:</p>
+<ol>
+<li><em><strong>O</strong>(1) </em>is same as some constant c.</li>
+<li>Multiplication of orders: <em><strong>O</strong>(f(n) × <strong>O</strong>(g(n)) = <strong>O</strong>(f(n) × g(n))</em>:<br>
+Example – <em><strong>O</strong>(n) × <strong>O</strong>(log n) = <strong>O</strong>(n × log n)</em></li>
+<li>Addition of orders: <em><strong>O</strong>(f(n) + <strong>O</strong>(g(n)) = <strong>O</strong>(f(n) + g(n))</em>:<br>
+Example – <em><strong>O</strong>(log n) + <strong>O</strong>(log log n) = <strong>O</strong>(log n + log log n)</em></li>
+<li>Ignore the constant terms in a product (i.e. the terms which do not depend on <em>n</em>):<br>
+For example, <em>T(n) = 5 n<sup>2</sup></em>, then <em>T(n) = <strong>O</strong>(n<sup>2</sup>).</em></li>
+<li>Ignore the terms with lower growth-rate in a sum of several terms, keeping only the largest growing term:<br>
+<em>T(n) = n<sup>3</sup> + n<sup>2</sup> + 6, </em>then <em>T(n) = <strong>O</strong>(n<sup>3</sup>) </em>because <em>n<sup>3</sup> </em>is larger growing then the other two terms.</li>
+</ol>
+<p>The following table will give an idea of the growth-rate of the most common functions.</p>
+<div class="tg-wrap">
+<table id="tg-Ne3p7" style="height:393px;" width="679">
+<tbody>
+<tr>
+<th>f(n)</th>
+<th>n=1</th>
+<th>n=10</th>
+<th>n=100</th>
+<th>n=1000</th>
+<th>n=1000000</th>
+</tr>
+<tr>
+<td>constant</td>
+<td>c</td>
+<td>c</td>
+<td>c</td>
+<td>c</td>
+<td>c</td>
+<td>c</td>
+</tr>
+<tr>
+<td>logarithmic</td>
+<td>log n (base 10)</td>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>6</td>
+</tr>
+<tr>
+<td>linear</td>
+<td>n</td>
+<td>1</td>
+<td>10</td>
+<td>100</td>
+<td>1000</td>
+<td>1000000</td>
+</tr>
+<tr>
+<td>quadratic</td>
+<td>n^2</td>
+<td>1</td>
+<td>100</td>
+<td>10000</td>
+<td>10^6</td>
+<td>10^12</td>
+</tr>
+<tr>
+<td>polynomial (power 3)</td>
+<td>n^3</td>
+<td>1</td>
+<td>1000</td>
+<td>10^6</td>
+<td>10^9</td>
+<td>10^18</td>
+</tr>
+<tr>
+<td>exponential (base 10)</td>
+<td>10^n</td>
+<td>10</td>
+<td>10^10</td>
+<td>10^100</td>
+<td>10^1000</td>
+<td>10^1000000</td>
+</tr>
+</tbody>
+</table>
+<p style="text-align:justify;">The above table also provides a glimpse of efficiency of algorithms with various order-functions. The running-time comparison of different classes of the algorithms can be presented as the following relation (Please note that use of “<” symbol is wrong mathematically speaking as <em><strong>O</strong>(f(n))</em> represents a set, but it is used to give a ‘sense of time’ taken):</p>
+<p style="text-align:justify;"><em><strong>O</strong>(1) < <strong>O</strong>(log n) < <strong>O</strong>(n) < <strong>O</strong>(n<sup>c</sup>)  < <strong>O</strong>(10<em><sup>n</sup></em>)</em></p>
+<p style="text-align:justify;">Alternatively,  algorithms classes can be ranked in the following sequence (best to worst time-complexity): Constant-time, linear, quadratic, polynomial, exponential.</p>
+<p style="border:1px solid #110000;padding:1em;text-align:justify;"><i>While calculating the asymptotic complexity of an algorithm, we aim to find the tightest possible bounds. Less formally, the bound is tight if there is an input that will make the algorithm run as long as has been depicted by the bound. For example, we can say that the linear search is <strong><em>O(n<sup>2</sup>)</em></strong> because <strong><em>T(n) < c.n<sup>2</sup> </em></strong>(for some constant c). However, <strong><em>O(n<sup>2</sup>)</em></strong> is not the tight bound (as there is no input for which the algorithm will require time corresponding to <em>n<sup>2</sup></em>). On the other hand, <strong><em>O(n)</em></strong> is the tight upper-bound because the algorithm takes <strong><em>O(n)</em></strong> time on the input when the element is not present in the sequence. Similarly, <strong><em>Ω(n) </em></strong>is the tight lower-bound of the linear search algorithm.<br>
+Note that<em><strong> Θ </strong>notation inherently signifies asymptotically tight bounds.</em></i></p>
+</div>
+<h2 style="text-align:justify;">Examples:</h2>
+<h3>Linear Search –</h3>
+<p>Consider the linear search algorithm given above to find the position of a number in an array (and returning NULL if the number is not in the array). We can write it in pseudo-code as</p>
+<pre>For i from 1 to n:
+     If element at position i has the desired value,
+         stop the search and return the location (i.e. i);
+ Return <i>NULL;</i>
+</pre>
+<div class="tg-wrap">
+<p style="text-align:justify;">Here, checking whether the element at position i is same as the number is a simple operation, that doesn’t depend on the input. We assume that it can be done in constant time in a machine. Therefore,  comparison step takes <em><strong>O</strong>(1)</em> time. In the worst case we will have to do comparisons for each <em>i</em> from 1 to <em>n; </em>thus, the total running time will be</p>
+<p style="text-align:justify;"><em>T(n) = <strong>O</strong>(1) + <strong>O</strong>(1) + <strong>O</strong>(1) + ……     n times</em></p>
+<p style="text-align:justify;"><em>T(n) = n × <strong>O</strong>(1) = <strong>O</strong>(n)</em></p>
+<h3 style="text-align:justify;">Maximum Pair-sum –</h3>
+</div>
+<p>We have been given an array of numbers (say positive), we need to report the maximum sum of a pair of any two numbers in this array. One possible (rather naive) algorithm can be to find sum of all pairs of numbers, keeping track of the maximum sum found until now, so that in the end we have the overall maximum pair-sum.</p>
+<pre>Initialise SUM to 0;  // variable for keeping the maximum sum 
+Initialise tempSUM to 0;   // variable for keeping sum of the current pair
+For each i from 1 to n-1:
+    For each j from i+1 to n:
+        Store sum of numbers at position i and position j in tempSUM;
+        If tempSUM > SUM
+            SUM = tempSUM;
+Return SUM;</pre>
+<div class="tg-wrap">
+<p>Here, both of the initialisation steps take constant time. Finding sum of two numbers, storing in a variable, comparing two variable  — all these steps are constant time (say <em>c</em>).</p>
+<p><img loading="lazy" decoding="async" class=" size-full wp-image-860 aligncenter" src="https://ritu-kundu.github.io/assets/uploads/2016/10/analysis.gif?resize=475%2C156&ssl=1" alt="analysis" width="475" height="156" data-recalc-dims="1"></p>
+<p>Thus, the algorithm is quadratic time.</p>
+<h3>Binary Search –</h3>
+<p>Now, we have to search a number in a given array of numbers but the array is sorted. We can make use of this information (instead of going for linear search). We can design the solution as  follows:</p>
+</div>
+<pre>If array is empty
+    Return NULL;
+Else
+     Go to middle position; 
+     If element at middle position is same as the desired number 
+         Return middle;
+     Else If element at middle position > the desired number
+         Search in the Left half of the array;
+     Else
+         Search in the Right half of the array;</pre>
+<p style="text-align:justify;">This is a recursive solution where the size of the array gets halved in each recursive call.  Let’s first calculate how many recursive calls will be there:</p>
+<ol class="hide-nums" style="text-align:justify;">
+<li>0<sup>th</sup> call: <em>n</em></li>
+<li>1<sup>st</sup> call: <em>n / 2</em></li>
+<li>2<sup>nd</sup> call: <em>n / 4</em></li>
+<li>3<sup>rd</sup> call: <em>n / 8</em></li>
+<li>…</li>
+<li>i<sup>th</sup> call: <em>n / 2<sup>i</sup></em></li>
+<li>…</li>
+<li>last call: <em>1</em></li>
+</ol>
+<p style="text-align:justify;">If the algorithm makes <em>k</em> calls then <em>(n/2<sup>k</sup>)= 1   =>  n =2<sup>k</sup>   =>   k = log<sub>2 </sub>n.</em></p>
+<p style="text-align:justify;">As calculating middle position and comparison is constant time and there are <em>k (=log<sub>2</sub>n)</em> number of calls, we have</p>
+<p style="text-align:justify;"><em>T(n) = k × <strong>O</strong>(1) =  <strong>O</strong>(log n) <em>× <strong>O</strong>(1) = <em><strong>O</strong>(log n)</em></em></em></p>
+<h2>Epilogue:</h2>
+<p style="text-align:justify;">Please pardon the verbosity, oversimplification, and baby-steps. This post is more pertinent to graduate students (who might not have a solid background in either mathematics or programming). It is not intended for a connoisseur of algorithms.🙂</p>
+<p style="text-align:justify;">Cheers!</p>
+<p> </p>
+
+</div>
+</article>
+
+</main></div>
